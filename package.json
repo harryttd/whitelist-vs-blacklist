@@ -26,6 +26,7 @@
     "react-bootstrap": "^0.30.8",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
+    "validator": "^7.0.0",
     "volleyball": "^1.4.1",
     "webpack": "^2.4.1"
   }
