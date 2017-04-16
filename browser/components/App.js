@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './styles';
 
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import Checkbox from 'material-ui/Checkbox';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
@@ -52,16 +53,24 @@ export default class App extends React.Component {
             <div style={styles.buttonsLeft}>
               <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listOption" defaultSelected="black">
                 <RadioButton
+                  value="black"
+                  label="Blacklist"
+                  style={styles.radioButton}
+                  />
+                <RadioButton
                   value="white"
                   label="Whitelist"
                   style={styles.radioButton}
                 />
-                <RadioButton
-                  value="black"
-                  label="Blacklist"
-                  style={styles.radioButton}
-                />
               </RadioButtonGroup>
+              <Checkbox
+                label="Client"
+                style={styles.checkbox}
+              />
+              <Checkbox
+                label="Server"
+                style={styles.checkbox}
+              />
               <Toggle
                 onToggle={this.handleToggle}
                 style={styles.toggle}

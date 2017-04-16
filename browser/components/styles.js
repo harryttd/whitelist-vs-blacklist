@@ -4,6 +4,9 @@ const styles = {
   radioButton: {
     marginBottom: 16
   },
+  checkbox: {
+    marginBottom: 16,
+  },
   toggle: {
     marginBottom: 16
   },
