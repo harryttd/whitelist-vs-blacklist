@@ -12,9 +12,6 @@ import Paper from 'material-ui/Paper';
 // import Routes from './Routes';
 
 const styles = {
-  block: {
-    maxWidth: 250
-  },
   radioButton: {
     marginBottom: 16
   },
@@ -22,8 +19,9 @@ const styles = {
     marginBottom: 16
   },
   paper: {
-    height: 1000,
-    width: 1000,
+    // height: 500
+    height: '100%',
+    width: '95%',
     margin: 20,
     textAlign: 'center',
     display: 'inline-block',
@@ -35,54 +33,46 @@ const styles = {
     width: '100%'
   },
   buttonsLeft: {
-    display: 'flex',
-    flexDirection: 'row wrap',
-    padding: 20,
-    width: '100%',
-
     maxWidth: 250,
     flex: 1,
     height: '15%',
     margin: 10,
     textAlign: 'center',
-    // padding: 10
-  },
-  // paperRight:{
-  //   // height: 600,
-  //   flex: 4,
-  //   margin: 10,
-  //   textAlign: 'center',
-  // }
+    padding: 10
+  }
 
 };
 //
 const Component = () => (
   <div>
-  <Paper style={styles.paper} zDepth={3}>
-    <div style={styles.buttonsLeft}>
-      <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
-        <RadioButton
-          value="light"
-          label="Whitelist"
-          style={styles.radioButton}
+    <Paper style={styles.paper} zDepth={3}>
+      <div style={styles.div}>
+        <div style={styles.buttonsLeft}>
+          <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+            <RadioButton
+              value="light"
+              label="Whitelist"
+              style={styles.radioButton}
+            />
+            <RadioButton
+              value="not_light"
+              label="Blacklist"
+              style={styles.radioButton}
+            />
+          </RadioButtonGroup>
+          <Toggle
+            style={styles.toggle}
+            label="Encode"
+            labelPosition="right"
+          />
+        </div>
+        <TextField
+          style={{flex: 1}}
+          hintText="Input"
+          fullWidth={true}
         />
-        <RadioButton
-          value="not_light"
-          label="Blacklist"
-          style={styles.radioButton}
-        />
-      </RadioButtonGroup>
-      <Toggle
-       label="Encode"
-       style={styles.toggle}
-      />
-    </div>
-    <TextField
-style={{flex: 1}}
-      hintText="Input"
-      fullWidth={true}
-    />
-  </Paper>
+      </div>
+    </Paper>
   </div>
 );
 
