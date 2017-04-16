@@ -6,6 +6,7 @@ import axios from 'axios';
 import styles from './styles';
 
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import Checkbox from 'material-ui/Checkbox';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
@@ -18,7 +19,7 @@ export default class App extends React.Component {
       input: '',
       output: '',
       list: 'black',
-      encode: 'off'
+      encode: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,10 +28,12 @@ export default class App extends React.Component {
   }
 
   handleSubmit() {
-    const { input } = this.state;
-    axios.post('/', { input })
+    const { input, encode, list } = this.state;
+    axios.post('/', { input, encode, list })
     .then(res => res.data)
-    .then(output => this.setState({ output }))
+    .then(output => {
+      this.setState({ output });
+    })
     .catch(err => console.error.bind(console)(err));
   }
 
@@ -39,8 +42,7 @@ export default class App extends React.Component {
   }
 
   handleToggle() {
-    const { encode } = this.state;
-    this.setState({ encode: encode === 'off' ? 'on' : 'off' });
+    this.setState({ encode: !this.state.encode });
   }
 
   render() {
@@ -51,16 +53,24 @@ export default class App extends React.Component {
             <div style={styles.buttonsLeft}>
               <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listOption" defaultSelected="black">
                 <RadioButton
+                  value="black"
+                  label="Blacklist"
+                  style={styles.radioButton}
+                  />
+                <RadioButton
                   value="white"
                   label="Whitelist"
                   style={styles.radioButton}
                 />
-                <RadioButton
-                  value="black"
-                  label="Blacklist"
-                  style={styles.radioButton}
-                />
               </RadioButtonGroup>
+              <Checkbox
+                label="Client"
+                style={styles.checkbox}
+              />
+              <Checkbox
+                label="Server"
+                style={styles.checkbox}
+              />
               <Toggle
                 onToggle={this.handleToggle}
                 style={styles.toggle}
