@@ -1,13 +1,13 @@
 'use strict';
 
 import React from 'react';
-import { Router, Route, IndexRoute, IndexRedirect, browserHistory } from 'react-router';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import App from './App';
 // import Root from './Root';
 
 export default () => (
-  <Router history={browserHistory}>
-    <Route path="/" component={App} />
+  <Router>
+    <App />
   </Router>
 );
