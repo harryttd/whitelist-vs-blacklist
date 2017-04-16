@@ -4,7 +4,8 @@ import React from 'react';
 import { render } from 'react-dom';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import { orange500 } from 'material-ui/styles/colors';
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
@@ -29,20 +30,27 @@ const styles = {
   div: {
     display: 'flex',
     flexDirection: 'row wrap',
-    padding: 20,
+    padding: 10,
     width: '100%'
   },
   buttonsLeft: {
     maxWidth: 250,
     flex: 1,
     height: '15%',
-    margin: 10,
     textAlign: 'center',
+    padding: 25
+  },
+  io: {
+    display: 'inline-block',
+    width: '100%',
     padding: 10
+  },
+  output: {
+    borderColor: orange500
   }
-
 };
-//
+
+
 const Component = () => (
   <div>
     <Paper style={styles.paper} zDepth={3}>
@@ -66,11 +74,19 @@ const Component = () => (
             labelPosition="right"
           />
         </div>
-        <TextField
-          style={{flex: 1}}
-          hintText="Input"
-          fullWidth={true}
-        />
+        <div style={styles.io}>
+          <TextField
+            hintText="Input"
+            fullWidth={true}
+            type="text"
+          />
+          <TextField
+            underlineFocusStyle={styles.output}
+            disabled={false}
+            fullWidth={true}
+            hintText="Output"
+          />
+        </div>
       </div>
     </Paper>
   </div>
