@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import {Form, Col, FormControl, FormGroup, HelpBlock, Checkbox, Radio, ControlLabel, Button} from 'react-bootstrap';
+import {Form, Col, ButtonGroup, ButtonToolbar, FormControl, FormGroup, HelpBlock, Checkbox, Radio, ControlLabel, Button} from 'react-bootstrap';
 // import Routes from './Routes';
 
 // render(
@@ -25,26 +25,37 @@ const formInstance = (
   <div className="container">
   <Form horizontal>
 
-    <FormGroup>
-      <Col smOffset={0} sm={4}>
-        <Checkbox>Encoding</Checkbox>
-      </Col>
-    </FormGroup>
+    <div className="row">
+        <div className="col-sm-9">
+            <div  >
+                <label className="radioGroup">
+                    <input dataToggle="button" type="radio" id="q128" name="radioGroup" value="1" /> 1
+                </label>
+                <label className="radioGroup">
+                    <input dataToggle="button" type="radio" id="q129" name="radioGroup" checked="checked" value="2" /> 2
+                </label>
+            </div>
+        </div>
+    </div>
 
-    <FormGroup controlId="formHorizontalEmail">
-      <Col componentClass={ControlLabel} sm={2}>
+<FormGroup>
+      <Col componentClass={ControlLabel} sm={2} smPull={3}>
         Input
       </Col>
-      <Col sm={6}>
+      <Col sm={6} smPull={3}>
         <FormControl type="input" placeholder="" />
       </Col>
+
     </FormGroup>
 
-    <FormGroup controlId="formHorizontalPassword">
-      <Col componentClass={ControlLabel} sm={2}>
+    <FormGroup>
+      <Col sm={4}>
+        <Checkbox inline>Encoding</Checkbox>
+      </Col>
+      <Col componentClass={ControlLabel} sm={2} smPull={3}>
         Output
       </Col>
-      <Col sm={6}>
+      <Col sm={6} smPull={3}>
         <FormControl type="output" placeholder="" />
       </Col>
     </FormGroup>
@@ -98,14 +109,14 @@ const formInstance = (
 //       </Checkbox>
 //     </FormGroup>
 //     <FormGroup>
-//       <Radio inline>
-//         1
-//       </Radio>
-//       {' '}
-//       <Radio inline>
-//         2
-//       </Radio>
-//       {' '}
+      // <Radio inline>
+      //   1
+      // </Radio>
+      // {' '}
+      // <Radio inline>
+      //   2
+      // </Radio>
+      // {' '}
 //       <Radio inline>
 //         3
 //       </Radio>
