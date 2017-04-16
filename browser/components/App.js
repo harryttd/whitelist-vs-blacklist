@@ -18,7 +18,7 @@ export default class App extends React.Component {
       input: '',
       output: '',
       list: 'black',
-      encode: 'off'
+      encode: false
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,10 +27,12 @@ export default class App extends React.Component {
   }
 
   handleSubmit() {
-    const { input } = this.state;
-    axios.post('/', { input })
+    const { input, encode, list } = this.state;
+    axios.post('/', { input, encode, list })
     .then(res => res.data)
-    .then(output => this.setState({ output }))
+    .then(output => {
+      this.setState({ output });
+    })
     .catch(err => console.error.bind(console)(err));
   }
 
@@ -39,8 +41,7 @@ export default class App extends React.Component {
   }
 
   handleToggle() {
-    const { encode } = this.state;
-    this.setState({ encode: encode === 'off' ? 'on' : 'off' });
+    this.setState({ encode: !this.state.encode });
   }
 
   render() {
