@@ -4,6 +4,7 @@ import React from 'react';
 import axios from 'axios';
 
 import styles from './styles';
+import SelectMultipleField from './SelectField';
 
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import Checkbox from 'material-ui/Checkbox';
@@ -51,6 +52,9 @@ export default class App extends React.Component {
         <Paper style={styles.paper} zDepth={3}>
           <div style={styles.div}>
             <div style={styles.buttonsLeft}>
+
+              <SelectMultipleField />
+
               <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listOption" defaultSelected="black">
                 <RadioButton
                   value="black"
@@ -64,11 +68,11 @@ export default class App extends React.Component {
                 />
               </RadioButtonGroup>
               <Checkbox
-                label="Client"
+                label="Client Validation"
                 style={styles.checkbox}
               />
               <Checkbox
-                label="Server"
+                label="Server Validation"
                 style={styles.checkbox}
               />
               <Toggle

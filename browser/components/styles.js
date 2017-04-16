@@ -15,7 +15,7 @@ const styles = {
     height: '100%',
     width: '95%',
     margin: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     display: 'inline-block',
   },
   div: {
@@ -28,7 +28,7 @@ const styles = {
     maxWidth: 250,
     flex: 1,
     height: '15%',
-    textAlign: 'center',
+    textAlign: 'left',
     padding: 25
   },
   io: {
