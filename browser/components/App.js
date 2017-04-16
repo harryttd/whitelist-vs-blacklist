@@ -16,11 +16,14 @@ export default class App extends React.Component {
 
     this.state = {
       input: '',
-      output: ''
+      output: '',
+      list: 'black',
+      encode: 'off'
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleToggle = this.handleToggle.bind(this);
   }
 
   handleSubmit() {
@@ -31,8 +34,13 @@ export default class App extends React.Component {
     .catch(err => console.error.bind(console)(err));
   }
 
-  handleChange(event) {
-    this.setState({ input: event.target.value });
+  handleChange(event, state) {
+    this.setState({ [state]: event.target.value });
+  }
+
+  handleToggle() {
+    const { encode } = this.state;
+    this.setState({ encode: encode === 'off' ? 'on' : 'off' });
   }
 
   render() {
@@ -41,23 +49,24 @@ export default class App extends React.Component {
         <Paper style={styles.paper} zDepth={3}>
           <div style={styles.div}>
             <div style={styles.buttonsLeft}>
-              <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+              <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listOption" defaultSelected="black">
                 <RadioButton
-                  value="light"
+                  value="white"
                   label="Whitelist"
                   style={styles.radioButton}
-                  />
+                />
                 <RadioButton
-                  value="not_light"
+                  value="black"
                   label="Blacklist"
                   style={styles.radioButton}
-                  />
+                />
               </RadioButtonGroup>
               <Toggle
+                onToggle={this.handleToggle}
                 style={styles.toggle}
                 label="Encode"
                 labelPosition="right"
-                />
+              />
             </div>
             <div style={styles.io}>
               <form onSubmit={(event) => {
@@ -66,7 +75,7 @@ export default class App extends React.Component {
                 }
               }>
                 <TextField
-                  onChange={this.handleChange}
+                  onChange={(event) => this.handleChange(event, 'input')}
                   hintText="Input"
                   fullWidth={true}
                   type="text"
