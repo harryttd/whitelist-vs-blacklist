@@ -2,136 +2,94 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import {Form, Col, ButtonGroup, ButtonToolbar, FormControl, FormGroup, HelpBlock, Checkbox, Radio, ControlLabel, Button} from 'react-bootstrap';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
+import Toggle from 'material-ui/Toggle';
+import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
+
 // import Routes from './Routes';
 
-// render(
-//   // <Routes />,
-//   <FormControl />,
-//   document.getElementById('app')
-// );
+const styles = {
+  block: {
+    maxWidth: 250
+  },
+  radioButton: {
+    marginBottom: 16
+  },
+  toggle: {
+    marginBottom: 16
+  },
+  paper: {
+    height: 1000,
+    width: 1000,
+    margin: 20,
+    textAlign: 'center',
+    display: 'inline-block',
+  },
+  div: {
+    display: 'flex',
+    flexDirection: 'row wrap',
+    padding: 20,
+    width: '100%'
+  },
+  buttonsLeft: {
+    display: 'flex',
+    flexDirection: 'row wrap',
+    padding: 20,
+    width: '100%',
 
-function FieldGroup({ id, label, help, ...props }) {
-  return (
-    <FormGroup controlId={id}>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl {...props} />
-      {help && <HelpBlock>{help}</HelpBlock>}
-    </FormGroup>
-  );
-}
+    maxWidth: 250,
+    flex: 1,
+    height: '15%',
+    margin: 10,
+    textAlign: 'center',
+    // padding: 10
+  },
+  // paperRight:{
+  //   // height: 600,
+  //   flex: 4,
+  //   margin: 10,
+  //   textAlign: 'center',
+  // }
 
-const formInstance = (
-  <div className="container">
-  <Form horizontal>
-
-    <div className="row">
-        <div className="col-sm-9">
-            <div  >
-                <label className="radioGroup">
-                    <input dataToggle="button" type="radio" id="q128" name="radioGroup" value="1" /> 1
-                </label>
-                <label className="radioGroup">
-                    <input dataToggle="button" type="radio" id="q129" name="radioGroup" checked="checked" value="2" /> 2
-                </label>
-            </div>
-        </div>
+};
+//
+const Component = () => (
+  <div>
+  <Paper style={styles.paper} zDepth={3}>
+    <div style={styles.buttonsLeft}>
+      <RadioButtonGroup name="shipSpeed" defaultSelected="not_light">
+        <RadioButton
+          value="light"
+          label="Whitelist"
+          style={styles.radioButton}
+        />
+        <RadioButton
+          value="not_light"
+          label="Blacklist"
+          style={styles.radioButton}
+        />
+      </RadioButtonGroup>
+      <Toggle
+       label="Encode"
+       style={styles.toggle}
+      />
     </div>
-
-<FormGroup>
-      <Col componentClass={ControlLabel} sm={2} smPull={3}>
-        Input
-      </Col>
-      <Col sm={6} smPull={3}>
-        <FormControl type="input" placeholder="" />
-      </Col>
-
-    </FormGroup>
-
-    <FormGroup>
-      <Col sm={4}>
-        <Checkbox inline>Encoding</Checkbox>
-      </Col>
-      <Col componentClass={ControlLabel} sm={2} smPull={3}>
-        Output
-      </Col>
-      <Col sm={6} smPull={3}>
-        <FormControl type="output" placeholder="" />
-      </Col>
-    </FormGroup>
-
-    <FormGroup>
-      <Col smOffset={2} sm={10}>
-        <Button type="submit">
-          Enter
-        </Button>
-      </Col>
-    </FormGroup>
-  </Form>
-</div>
+    <TextField
+style={{flex: 1}}
+      hintText="Input"
+      fullWidth={true}
+    />
+  </Paper>
+  </div>
 );
 
-
-// const formInstance = (
-// <div className="container">
-//   <form>
-//     <FieldGroup
-//       id="formControlsText"
-//       type="text"
-//       label="Text"
-//       placeholder="Enter text"
-//     />
-//     <FieldGroup
-//       id="formControlsEmail"
-//       type="email"
-//       label="Email address"
-//       placeholder="Enter email"
-//     />
-//
-//     <Checkbox checked readOnly>
-//       Checkbox
-//     </Checkbox>
-//     <Radio checked readOnly>
-//       Radio
-//     </Radio>
-//
-//     <FormGroup>
-//       <Checkbox inline>
-//         1
-//       </Checkbox>
-//       {' '}
-//       <Checkbox inline>
-//         2
-//       </Checkbox>
-//       {' '}
-//       <Checkbox inline>
-//         3
-//       </Checkbox>
-//     </FormGroup>
-//     <FormGroup>
-      // <Radio inline>
-      //   1
-      // </Radio>
-      // {' '}
-      // <Radio inline>
-      //   2
-      // </Radio>
-      // {' '}
-//       <Radio inline>
-//         3
-//       </Radio>
-//     </FormGroup>
-//
-//     <FormGroup controlId="formControlsTextarea">
-//       <ControlLabel>Textarea</ControlLabel>
-//       <FormControl componentClass="textarea" placeholder="textarea" />
-//     </FormGroup>
-//
-//     <Button type="submit">
-//       Submit
-//     </Button>
-//   </form>
-//   </div>
-// );
-
-render(formInstance, document.getElementById('app'));
+render(
+  // <Routes />,
+<MuiThemeProvider>
+  <Component />
+</MuiThemeProvider>,
+  document.getElementById('app')
+);
