@@ -94,8 +94,8 @@ const Component = () => (
 
 render(
   // <Routes />,
-<MuiThemeProvider>
-  <Component />
-</MuiThemeProvider>,
+  <MuiThemeProvider>
+    <Component />
+  </MuiThemeProvider>,
   document.getElementById('app')
 );
