@@ -13,6 +13,8 @@ import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 
+const entityEncoder = require('../../utils/encoder').entityEncoder;
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -21,7 +23,7 @@ export default class App extends React.Component {
       input: '',
       output: '',
       list: 'black',
-      clientValidation: false,
+      clientValidation: true,
       serverValidation: false,
       encode: false
     };
@@ -34,11 +36,19 @@ export default class App extends React.Component {
   handleSubmit() {
     const { input, list, clientValidation, serverValidation, encode } = this.state;
 
+    let toOutput = input;
+
+    if (clientValidation) {
+      if (encode) toOutput = entityEncoder.htmlEncode(input);
+    }
+
     if (serverValidation) {
-      axios.post('/', { input, encode, list })
+      axios.post('/', { input: toOutput, list, encode })
       .then(res => res.data)
       .then(output => this.setState({ output }))
       .catch(err => console.error.bind(console)(err));
+    } else {
+      this.setState({ output: toOutput });
     }
   }
 
@@ -75,6 +85,7 @@ export default class App extends React.Component {
               </RadioButtonGroup>
               <Checkbox
                 onCheck={() => this.handleToggleAndCheck('clientValidation')}
+                checked={this.state.clientValidation}
                 label="Client Validation"
                 style={styles.checkbox}
               />
@@ -96,7 +107,6 @@ export default class App extends React.Component {
                 hintText="Input"
                 fullWidth={true}
                 multiLine={true}
-                type="text"
               />
               <TextField
                 hintText="Output"
@@ -104,7 +114,6 @@ export default class App extends React.Component {
                 fullWidth={true}
                 multiLine={true}
                 underlineFocusStyle={styles.output}
-                type="text"
               />
 
             <RaisedButton
