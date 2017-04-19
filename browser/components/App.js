@@ -7,6 +7,7 @@ import styles from './styles';
 import ListOptions from './ListOptions';
 
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
@@ -90,25 +91,29 @@ export default class App extends React.Component {
               />
             </div>
             <div style={styles.io}>
-              <form onSubmit={(event) => {
-                  event.preventDefault();
-                  this.handleSubmit(event.target);
-                }
-              }>
-                <TextField
-                  onChange={(event) => this.handleChange(event, 'input')}
-                  hintText="Input"
-                  fullWidth={true}
-                  type="text"
-                  />
-              </form>
+              <TextField
+                onChange={(event) => this.handleChange(event, 'input')}
+                hintText="Input"
+                fullWidth={true}
+                multiLine={true}
+                type="text"
+              />
               <TextField
                 hintText="Output"
                 value={state.output}
                 fullWidth={true}
+                multiLine={true}
                 underlineFocusStyle={styles.output}
                 type="text"
               />
+
+            <RaisedButton
+              onClick={this.handleSubmit}
+              primary={true}
+              label="Test"
+              fullWidth={true}
+            />
+
             </div>
           </div>
         </Paper>
