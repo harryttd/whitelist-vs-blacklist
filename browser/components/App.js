@@ -1,57 +1,77 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 
-import styles from './styles';
+import styles from '../styles';
+import ListOptions from './ListOptions';
 
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import RaisedButton from 'material-ui/RaisedButton';
 import Checkbox from 'material-ui/Checkbox';
 import Toggle from 'material-ui/Toggle';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 
-export default class App extends React.Component {
-  constructor() {
-    super();
+const entityEncoder = require('../../utils/encoder').entityEncoder;
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
 
     this.state = {
       input: '',
       output: '',
       list: 'black',
+      clientValidation: true,
+      serverValidation: false,
       encode: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
+    this.handleToggleAndChecks = this.handleToggleAndChecks.bind(this);
   }
 
   handleSubmit() {
-    const { input, encode, list } = this.state;
-    axios.post('/', { input, encode, list })
-    .then(res => res.data)
-    .then(output => {
-      this.setState({ output });
-    })
-    .catch(err => console.error.bind(console)(err));
+    const { input, list, clientValidation, serverValidation, encode } = this.state;
+
+    let toOutput = input;
+
+    if (clientValidation) {
+      if (encode) toOutput = entityEncoder.htmlEncode(input);
+    }
+
+    if (serverValidation) {
+      axios.post('/', { input: toOutput, list, encode })
+      .then(res => res.data)
+      .then(output => this.setState({ output }))
+      .catch(err => console.error.bind(console)(err));
+    } else {
+      this.setState({ output: toOutput });
+    }
   }
 
   handleChange(event, state) {
     this.setState({ [state]: event.target.value });
   }
 
-  handleToggle() {
-    this.setState({ encode: !this.state.encode });
+  handleToggleAndChecks(state) {
+    this.setState({ [state]: !this.state[state] });
   }
 
   render() {
+    const state = this.state;
+
     return (
       <div>
         <Paper style={styles.paper} zDepth={3}>
           <div style={styles.div}>
             <div style={styles.buttonsLeft}>
-              <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listOption" defaultSelected="black">
+
+              <ListOptions list={state.list} />
+
+              <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listType" defaultSelected="black">
                 <RadioButton
                   value="black"
                   label="Blacklist"
@@ -64,43 +84,49 @@ export default class App extends React.Component {
                 />
               </RadioButtonGroup>
               <Checkbox
-                label="Client"
+                onCheck={() => this.handleToggleAndChecks('clientValidation')}
+                checked={this.state.clientValidation}
+                label="Client Validation"
                 style={styles.checkbox}
               />
               <Checkbox
-                label="Server"
+                onCheck={() => this.handleToggleAndChecks('serverValidation')}
+                label="Server Validation"
                 style={styles.checkbox}
               />
               <Toggle
-                onToggle={this.handleToggle}
+                onToggle={() => this.handleToggleAndChecks('encode')}
                 style={styles.toggle}
                 label="Encode"
                 labelPosition="right"
               />
             </div>
             <div style={styles.io}>
-              <form onSubmit={(event) => {
-                  event.preventDefault();
-                  this.handleSubmit(event.target);
-                }
-              }>
-                <TextField
-                  onChange={(event) => this.handleChange(event, 'input')}
-                  hintText="Input"
-                  fullWidth={true}
-                  type="text"
-                  />
-              </form>
+              <TextField
+                onChange={(event) => this.handleChange(event, 'input')}
+                hintText="Input"
+                fullWidth={true}
+                multiLine={true}
+              />
               <TextField
                 hintText="Output"
-                value={this.state.output}
+                value={state.output}
                 fullWidth={true}
+                multiLine={true}
                 underlineFocusStyle={styles.output}
-                type="text"
               />
+
+              <RaisedButton
+                onClick={this.handleSubmit}
+                primary={true}
+                label="Test"
+                fullWidth={true}
+              />
+
             </div>
           </div>
         </Paper>
+
       </div>
     );
   }

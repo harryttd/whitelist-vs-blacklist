@@ -15,7 +15,7 @@ const styles = {
     height: '100%',
     width: '95%',
     margin: 20,
-    textAlign: 'center',
+    textAlign: 'left',
     display: 'inline-block',
   },
   div: {
@@ -28,13 +28,15 @@ const styles = {
     maxWidth: 250,
     flex: 1,
     height: '15%',
-    textAlign: 'center',
-    padding: 25
+    textAlign: 'left',
+    paddingTop: 0,
+    paddingRight: 25,
+    paddingLeft: 25
   },
   io: {
     display: 'inline-block',
     width: '100%',
-    padding: 10
+    paddingRight: 30
   },
   output: {
     borderColor: orange500
