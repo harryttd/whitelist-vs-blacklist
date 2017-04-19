@@ -17,8 +17,10 @@ app
   // .get('/', (req, res, next) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
   .get('*', (req, res, next) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
   .post('/', (req, res, next) => {
-    if (req.body.encode) res.send(entityEncoder.htmlEncode(req.body.input));
-    else res.send(req.body.input);
+    const { input, list, encode } = req.body;
+
+    if (encode) res.send(entityEncoder.htmlEncode(input));
+    else res.send(input);
   });
 
 app.listen(3000, () => console.log(chalk.green('The server is listening on port 3000!')));

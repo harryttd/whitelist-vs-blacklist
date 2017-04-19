@@ -1,9 +1,9 @@
 'use strict';
 
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 
-import styles from './styles';
+import styles from '../styles';
 import ListOptions from './ListOptions';
 
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
@@ -15,7 +15,7 @@ import Paper from 'material-ui/Paper';
 
 const entityEncoder = require('../../utils/encoder').entityEncoder;
 
-export default class App extends React.Component {
+export default class App extends Component {
   constructor(props) {
     super(props);
 
@@ -30,7 +30,7 @@ export default class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleToggleAndCheck = this.handleToggleAndCheck.bind(this);
+    this.handleToggleAndChecks = this.handleToggleAndChecks.bind(this);
   }
 
   handleSubmit() {
@@ -56,7 +56,7 @@ export default class App extends React.Component {
     this.setState({ [state]: event.target.value });
   }
 
-  handleToggleAndCheck(state) {
+  handleToggleAndChecks(state) {
     this.setState({ [state]: !this.state[state] });
   }
 
@@ -84,18 +84,18 @@ export default class App extends React.Component {
                 />
               </RadioButtonGroup>
               <Checkbox
-                onCheck={() => this.handleToggleAndCheck('clientValidation')}
+                onCheck={() => this.handleToggleAndChecks('clientValidation')}
                 checked={this.state.clientValidation}
                 label="Client Validation"
                 style={styles.checkbox}
               />
               <Checkbox
-                onCheck={() => this.handleToggleAndCheck('serverValidation')}
+                onCheck={() => this.handleToggleAndChecks('serverValidation')}
                 label="Server Validation"
                 style={styles.checkbox}
               />
               <Toggle
-                onToggle={() => this.handleToggleAndCheck('encode')}
+                onToggle={() => this.handleToggleAndChecks('encode')}
                 style={styles.toggle}
                 label="Encode"
                 labelPosition="right"
@@ -116,16 +116,17 @@ export default class App extends React.Component {
                 underlineFocusStyle={styles.output}
               />
 
-            <RaisedButton
-              onClick={this.handleSubmit}
-              primary={true}
-              label="Test"
-              fullWidth={true}
-            />
+              <RaisedButton
+                onClick={this.handleSubmit}
+                primary={true}
+                label="Test"
+                fullWidth={true}
+              />
 
             </div>
           </div>
         </Paper>
+
       </div>
     );
   }
