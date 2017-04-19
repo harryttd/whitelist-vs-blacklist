@@ -1,6 +1,6 @@
 'use strict';
 
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
@@ -20,9 +20,9 @@ const names = [
 /**
  * `SelectField` can handle multiple selections. It is enabled with the `multiple` property.
  */
-export default class SelectMultipleField extends Component {
-  constructor() {
-    super();
+export default class ListOptions extends Component {
+  constructor(props) {
+    super(props);
 
     this.state = {
       values: [],
@@ -48,11 +48,11 @@ export default class SelectMultipleField extends Component {
   }
 
   render() {
-    const {values} = this.state;
+    const { values } = this.state;
     return (
       <SelectField
         multiple={true}
-        hintText="List Options"
+        hintText={`${this.props.list}list options`}
         value={values}
         onChange={this.handleChange}
       >
