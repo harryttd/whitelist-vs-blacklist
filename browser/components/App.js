@@ -34,21 +34,20 @@ export default class App extends Component {
   }
 
   handleSubmit() {
-    const { input, list, clientValidation, serverValidation, encode } = this.state;
-
-    let toOutput = input;
+    const { list, clientValidation, serverValidation, encode } = this.state;
+    let { input } = this.state;
 
     if (clientValidation) {
-      if (encode) toOutput = entityEncoder.htmlEncode(input);
+      if (encode) input = entityEncoder.htmlEncode(input);
     }
 
     if (serverValidation) {
-      axios.post('/', { input: toOutput, list, encode })
+      axios.post('/', { input, list, encode })
       .then(res => res.data)
       .then(output => this.setState({ output }))
       .catch(err => console.error.bind(console)(err));
     } else {
-      this.setState({ output: toOutput });
+      this.setState({ output: input });
     }
   }
 
@@ -57,7 +56,7 @@ export default class App extends Component {
   }
 
   handleToggleAndChecks(state) {
-    this.setState({ [state]: !this.state[state] });
+    this.setState((prevState) => ({ [state]: !prevState[state] }));
   }
 
   render() {

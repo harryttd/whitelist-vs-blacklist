@@ -29,14 +29,13 @@ const styles = {
     flex: 1,
     height: '15%',
     textAlign: 'left',
-    paddingTop: 0,
-    paddingRight: 25,
-    paddingLeft: 25
+    marginRight: 25,
+    marginLeft: 25
   },
   io: {
     display: 'inline-block',
     width: '100%',
-    paddingRight: 30
+    marginRight: 35
   },
   output: {
     borderColor: orange500

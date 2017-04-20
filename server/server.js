@@ -4,7 +4,8 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       chalk = require('chalk'),
       { resolve } = require('path'),
-      { entityEncoder, numericalEncoder } = require('../utils/encoder');
+      { entityEncoder, numericalEncoder } = require('../utils/encoder'),
+      { firstAngleBrackets, removeScriptTags } = require('../utils/validate');
 
 const app = express();
 
@@ -20,7 +21,7 @@ app
     const { input, list, encode } = req.body;
 
     if (encode) res.send(entityEncoder.htmlEncode(input));
-    else res.send(input);
+    else res.send(firstAngleBrackets(input));
   });
 
 app.listen(3000, () => console.log(chalk.green('The server is listening on port 3000!')));
