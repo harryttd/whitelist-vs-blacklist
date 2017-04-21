@@ -14,6 +14,8 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 
 const entityEncoder = require('../../utils/encoder').entityEncoder;
+const { blacklist } = require('../../utils/blacklist');
+const blacklistTitles = Object.values(blacklist).map(func => func.title);
 
 export default class App extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ export default class App extends Component {
       input: '',
       output: '',
       list: 'black',
+      selectedOptions: [],
       clientValidation: true,
       serverValidation: false,
       encode: false
@@ -31,18 +34,23 @@ export default class App extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleToggleAndChecks = this.handleToggleAndChecks.bind(this);
+    this.clickOption = this.clickOption.bind(this);
   }
 
   handleSubmit() {
-    const { list, clientValidation, serverValidation, encode } = this.state;
+    const { list, clientValidation, serverValidation, encode, selectedOptions } = this.state;
     let { input } = this.state;
 
+    const validators = Object.values(blacklist).filter(func => selectedOptions.includes(func.title));
+
     if (clientValidation) {
+      // DO WE ENCODE FIRST OR RUN VALIDATORS FIRST??
       if (encode) input = entityEncoder.htmlEncode(input);
+      validators.forEach(func => input = func(input));
     }
 
     if (serverValidation) {
-      axios.post('/', { input, list, encode })
+      axios.post('/', { input, list, encode, selectedOptions })
       .then(res => res.data)
       .then(output => this.setState({ output }))
       .catch(err => console.error.bind(console)(err));
@@ -59,6 +67,10 @@ export default class App extends Component {
     this.setState((prevState) => ({ [state]: !prevState[state] }));
   }
 
+  clickOption(event, key, selectedOptions) {
+    this.setState({ selectedOptions });
+  }
+
   render() {
     const state = this.state;
 
@@ -68,7 +80,7 @@ export default class App extends Component {
           <div style={styles.div}>
             <div style={styles.buttonsLeft}>
 
-              <ListOptions list={state.list} />
+              <ListOptions list={state.list} selectedOptions={state.selectedOptions} options={blacklistTitles} clickOption={this.clickOption} />
 
               <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listType" defaultSelected="black">
                 <RadioButton
