@@ -7,6 +7,7 @@ const express = require('express'),
       { entityEncoder, numericalEncoder } = require('../utils/encoder'),
       { blacklist } = require('../utils/blacklist');
 
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app
@@ -21,11 +22,10 @@ app
     let { input } = req.body;
     const validators = Object.values(blacklist).filter(func => selectedOptions.includes(func.title));
 
-    // DO WE ENCODE FIRST OR RUN VALIDATORS FIRST??
-    if (encode) input = entityEncoder.htmlEncode(input);
     validators.forEach(func => input = func(input));
+    if (encode) input = entityEncoder.htmlEncode(input);
 
     res.send(input);
   });
 
-app.listen(3000, () => console.log(chalk.green('The server is listening on port 3000!')));
+app.listen(PORT, () => console.log(chalk.green(`The server is listening on port ${PORT}!`)));

@@ -1,10 +1,15 @@
 {
   "name": "white-black-listing",
   "version": "1.0.0",
+  "engines": {
+    "node": "7.9.0"
+  },
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack -w & nodemon server/server.js"
+    "start": "node server/server.js",
+    "start-watch": "webpack -w & nodemon server/server.js",
+    "postinstall": "webpack"
   },
   "keywords": [],
   "author": "",

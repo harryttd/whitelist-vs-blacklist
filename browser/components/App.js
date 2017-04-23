@@ -44,9 +44,8 @@ export default class App extends Component {
     const validators = Object.values(blacklist).filter(func => selectedOptions.includes(func.title));
 
     if (clientValidation) {
-      // DO WE ENCODE FIRST OR RUN VALIDATORS FIRST??
-      if (encode) input = entityEncoder.htmlEncode(input);
       validators.forEach(func => input = func(input));
+      if (encode) input = entityEncoder.htmlEncode(input);
     }
 
     if (serverValidation) {
