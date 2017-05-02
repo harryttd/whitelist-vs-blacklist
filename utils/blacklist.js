@@ -2,7 +2,7 @@
 
 const blacklist = {
   // Remove first occurence of script tag angle brackets
-  firstAngleBrackets: (input) => input.replace(/<\/?(script)>/g, (_, a) => a),
+  firstAngleBrackets: (input) => input.replace(/<(\/?script)>/g, '$1'),
   // Remove script tags entirely (lowercase sensitive)
   removeScriptTags: (input) => input.replace(/<*\/?script>*/g, '')
 };

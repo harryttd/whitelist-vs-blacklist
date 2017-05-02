@@ -86,7 +86,7 @@ export default class App extends Component {
                   value="black"
                   label="Blacklist"
                   style={styles.radioButton}
-                  />
+                />
                 <RadioButton
                   value="white"
                   label="Whitelist"
