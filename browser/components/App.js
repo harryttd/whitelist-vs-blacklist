@@ -15,7 +15,9 @@ import Paper from 'material-ui/Paper';
 
 const entityEncoder = require('../../utils/encoder').entityEncoder;
 const { blacklist } = require('../../utils/blacklist');
+const { whitelist } = require('../../utils/whitelist');
 const blacklistTitles = Object.values(blacklist).map(func => func.title);
+const whitelistTitles = Object.values(whitelist).map(func => func.title);
 
 export default class App extends Component {
   constructor(props) {
@@ -41,7 +43,7 @@ export default class App extends Component {
     const { list, clientValidation, serverValidation, encode, selectedOptions } = this.state;
     let { input } = this.state;
 
-    const validators = Object.values(blacklist).filter(func => selectedOptions.includes(func.title));
+    const validators = Object.values(list === 'black' ? blacklist : whitelist).filter(func => selectedOptions.includes(func.title));
 
     if (clientValidation) {
       validators.forEach(func => input = func(input));
@@ -58,14 +60,20 @@ export default class App extends Component {
     }
   }
 
+  // Handles user input and changing between lists.
   handleChange(event, state) {
-    this.setState({ [state]: event.target.value });
+    this.setState({
+      [state]: event.target.value,
+      selectedOptions: state === 'list' ? [] : this.state.selectedOptions
+    });
   }
 
+  // Handles client and server validation options, and also encoding option.
   handleToggleAndChecks(state) {
     this.setState((prevState) => ({ [state]: !prevState[state] }));
   }
 
+  // Handles clicking list options
   clickOption(event, key, selectedOptions) {
     this.setState({ selectedOptions });
   }
@@ -78,8 +86,11 @@ export default class App extends Component {
         <Paper style={styles.paper} zDepth={3}>
           <div style={styles.div}>
             <div style={styles.buttonsLeft}>
-
-              <ListOptions list={state.list} selectedOptions={state.selectedOptions} options={blacklistTitles} clickOption={this.clickOption} />
+              <ListOptions
+                list={state.list}
+                selectedOptions={state.selectedOptions}
+                options={state.list === 'black' ? blacklistTitles : whitelistTitles} clickOption={this.clickOption}
+              />
 
               <RadioButtonGroup onChange={(event) => this.handleChange(event, 'list')} name="listType" defaultSelected="black">
                 <RadioButton
@@ -93,6 +104,7 @@ export default class App extends Component {
                   style={styles.radioButton}
                 />
               </RadioButtonGroup>
+
               <Checkbox
                 onCheck={() => this.handleToggleAndChecks('clientValidation')}
                 checked={this.state.clientValidation}
@@ -111,6 +123,7 @@ export default class App extends Component {
                 labelPosition="right"
               />
             </div>
+
             <div style={styles.io}>
               <TextField
                 onChange={(event) => this.handleChange(event, 'input')}
@@ -125,18 +138,16 @@ export default class App extends Component {
                 multiLine={true}
                 underlineFocusStyle={styles.output}
               />
-
               <RaisedButton
                 onClick={this.handleSubmit}
                 primary={true}
                 label="Test"
                 fullWidth={true}
               />
-
             </div>
+
           </div>
         </Paper>
-
       </div>
     );
   }

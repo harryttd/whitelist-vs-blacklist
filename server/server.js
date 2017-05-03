@@ -5,7 +5,8 @@ const express = require('express'),
       chalk = require('chalk'),
       { resolve } = require('path'),
       { entityEncoder, numericalEncoder } = require('../utils/encoder'),
-      { blacklist } = require('../utils/blacklist');
+      { blacklist } = require('../utils/blacklist'),
+      { whitelist } = require('../utils/whitelist');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -20,7 +21,7 @@ app
   .post('/', (req, res, next) => {
     const { list, encode, selectedOptions } = req.body;
     let { input } = req.body;
-    const validators = Object.values(blacklist).filter(func => selectedOptions.includes(func.title));
+    const validators = Object.values(list === 'black' ? blacklist : whitelist).filter(func => selectedOptions.includes(func.title));
 
     validators.forEach(func => input = func(input));
     if (encode) input = entityEncoder.htmlEncode(input);
